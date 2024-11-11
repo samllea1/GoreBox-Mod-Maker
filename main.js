@@ -1,4 +1,4 @@
-const version = "1.1.3 (TESTING)";
+const version = "1.2.0 (TESTING)";
 
 const whats_new = `
 -Removed Listen Blocks\n-fixed major bugs
@@ -257,8 +257,9 @@ const toolbox = {
             colour: "#ff7b00",
             contents: [
                 block("VARIABLES_set_variable"),
+                block("VARIABLES_set_variable_global"),
                 block("VARIABLES_variable"),
-                block("VARIABLES_globals"),
+                block("VARIABLES_variable_global"),
 
                 // block(""),
             ],
@@ -357,7 +358,7 @@ $("#darkmode").click(() => {
     const self = $("#darkmode");
     self.toggleClass("dark");
     $(".blocklyTreeSeparator").toggleClass("dark");
-    localStorage.setItem("PenguinBuilder", JSON.stringify({
+    localStorage.setItem("GoreBoxModMaker", JSON.stringify({
         shown_version: version,
         dark: self.hasClass("dark"),
     }));  
@@ -371,30 +372,6 @@ $("#darkmode").click(() => {
 workspace.scale = 0.7;
 
 workspace.addChangeListener(Blockly.Events.disableOrphans);
-
-let extensionWindow;
-
-let extensions = {};
-
-window.addEventListener("message", (e) => {
-    const data = e.data.data;
-    switch (e.data.type) {
-        case "extension":
-            if (extensions[data.id]) {
-                extensionWindow.close();
-                alert("this extension has already been loaded");
-                return;
-            };
-            extensionWindow.close();
-            setTimeout(() => {
-                try {
-                    (new Function(data.code))();
-                    extensions[data.id] = data.code;
-                } catch (e) { };
-            }, 20);
-            break;
-    }
-}, false);
 
 const disableTopBlocksPlugin = new DisableTopBlocks();
 disableTopBlocksPlugin.init();
@@ -602,25 +579,25 @@ function checkFileExtension(file, allowedExtension) {
     return fileExtension === allowedExtension.substring(1);
 }
 
-if (localStorage.getItem("PenguinBuilder") === null) {
-    localStorage.setItem("PenguinBuilder", JSON.stringify({
+if (localStorage.getItem("GoreBoxModMaker") === null) {
+    localStorage.setItem("GoreBoxModMaker", JSON.stringify({
         shown_version: "0",
         dark: false,
     }))
 }
 
-if (JSON.parse(localStorage.getItem("PenguinBuilder")).shown_version !== version) {
+if (JSON.parse(localStorage.getItem("GoreBoxModMaker")).shown_version !== version) {
     const update = $("#whats-new").create();
     update.$(".update").text(whats_new);
     update.$(".close").click(() => update.remove());
     $.body().child(update);
     update.$(".whats-new-dialog").elt.showModal();
-    localStorage.setItem("PenguinBuilder", JSON.stringify({
+    localStorage.setItem("GoreBoxModMaker", JSON.stringify({
         shown_version: version,
-        dark: JSON.parse(localStorage.getItem("PenguinBuilder")).dark,
+        dark: JSON.parse(localStorage.getItem("GoreBoxModMaker")).dark,
     }))
 }
 
-if(JSON.parse(localStorage.getItem("PenguinBuilder")).dark) {
+if(JSON.parse(localStorage.getItem("GoreBoxModMaker")).dark) {
     $("#darkmode").click();
 }
