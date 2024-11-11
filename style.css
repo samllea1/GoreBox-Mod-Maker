@@ -4,10 +4,15 @@ html, body {
     background: #750b0b;
 }
 
-* {
-    font-family: "Lexend", sans-serif;
+@font-face {
+    font-family: 'kenyan_coffee_rg';
+    src: url('fonts/kenyan_coffee_rg.otf') format('truetype');
+    /* Add more src lines for different font formats if needed */
 }
 
+* {
+    font-family: 'kenyan_coffee_rg', sans-serif;
+}
 #block-editor {
     position: absolute;
     width: 100vw;

@@ -2,9 +2,6 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mode_night" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">  
         <title>GoreBox Mod Maker Editor</title>
         <script src="https://unpkg.com/blockly@11.1.1/blockly.min.js"></script>
 
@@ -26,14 +23,6 @@
         <meta charset="utf-8" />
     </head>
     <body>
-        <template id="whats-new">
-            <dialog class="whats-new-dialog">
-                <h1 class="whats-new-h1">Whats New?</h1>
-                <div class="update"></div>
-                <button class="close">close</button>
-            </dialog>
-        </template>
-
         <main>
             <div id="block-editor"></div>
             <div id="top-bar">
@@ -57,6 +46,7 @@
         <script src="blocks/control_blocks.js"></script>
         <script src="blocks/objects_blocks.js"></script>
         <script src="blocks/variables_blocks.js"></script>
+        <script src="blocks/chat_blocks.js"></script>
 
         <!--Main Mod Creator Brain-->
         <script src="main.js"></script>

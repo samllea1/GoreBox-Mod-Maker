@@ -1,8 +1,4 @@
-const version = "1.2.0 (TESTING)";
-
-const whats_new = `
--Removed Listen Blocks\n-fixed major bugs
-`;
+const version = "1.3.0 (Beta)";
 
 $("html").on("keydown", (e) => {
     if(e.ctrlKey && e.key == "s") {
@@ -146,7 +142,7 @@ const toolbox = {
             colour: "#ffbc03",
             contents: [
                 block("GB_OnStart"),
-                block("GB_OnFunction"),
+                // block("GB_OnFunction"),
                 block("GB_args"),
 
                 // block(""),
@@ -165,6 +161,8 @@ const toolbox = {
                 block("GB_set_local_rotation"),
                 block("GB_add_scale"),
                 block("GB_set_scale"),
+                block("GB_remove_rigidbody"),
+                block("GB_add_rigidbody"),
                 block("GB_pos_x"),
                 block("GB_pos_y"),
                 block("GB_pos_z"),
@@ -183,11 +181,32 @@ const toolbox = {
             name: "objects",
             colour: "#00aaff",
             contents: [
+                block("OBJECTS_OnInstantiate"),
+                block("OBJECTS_instantiate_empty"),
+                block("OBJECTS_instantiate_model"),
+                block("OBJECTS_instantiate"),
                 block("OBJECTS_register"),
                 block("OBJECTS_execute_as"),
                 block("OBJECTS_execute_on_children"),
-                block("OBJECTS_name"),
+                block("OBJECTS_set_texture"),
+                block("OBJECTS_destroy_self"),
+                block("OBJECTS_args"),
                 block("OBJECTS_child_count"),
+                block("OBJECTS_name"),
+
+                // block(""),
+            ],
+        },
+        {
+            kind: "category",
+            name: "chat",
+            colour: "#fc3903",
+            contents: [
+                block("CHAT_OnChatMessage"),
+                block("CHAT_SendChatMessage"),
+                block("CHAT_SendLocalChatMessage"),
+                block("CHAT_SendErrorMessage"),
+                block("CHAT_args"),
 
                 // block(""),
             ],
@@ -397,50 +416,45 @@ $("#Export").click(() => {
         return;
     }
     
-    // Check for GB_OnFunction blocks with duplicate dropdown values
-    const onFunctionBlocks = topBlocks.filter(block => block.type === 'GB_OnFunction');
-    const functionValues = new Map();
+    // Check for multiple "CHAT_OnChat" blocks
+    const OnChatBlocks = topBlocks.filter(block => block.type === 'CHAT_OnChatMessage');
+    
+    if (OnChatBlocks.length > 1) {
+        alert("Only one OnChatMessage block can be used. Please remove the extra blocks.");
+        return;
+    }
+
+    const OnInstantiateBlocks = topBlocks.filter(block => block.type === 'OBJECTS_OnInstantiate');
+    
+    if (OnInstantiateBlocks.length > 1) {
+        alert("Only one OnInstantiate block can be used. Please remove the extra blocks.");
+        return;
+    }
+
+    // Check for specific blocks and set listeners
     let listenForInstantiation = false;
     let listenForChat = false;
     
-    onFunctionBlocks.forEach(block => {
-        const functionValue = block.getFieldValue('eventName'); // Correct field name for the dropdown
-        console.log(`Function Block: ${block.id}, Dropdown Value: ${functionValue}`); // Debug log
-        if (functionValue === 'Instantiated') {
+    topBlocks.forEach(block => {
+        if (block.type === 'OBJECTS_OnInstantiate') {
             listenForInstantiation = true;
         }
-        if (functionValue === 'Chatted') {
+        if (block.type === 'CHAT_OnChatMessage') {
             listenForChat = true;
         }
-        if (functionValues.has(functionValue)) {
-            functionValues.set(functionValue, functionValues.get(functionValue) + 1);
-        } else {
-            functionValues.set(functionValue, 1);
-        }
     });
-
-    let duplicateFound = false;
-    functionValues.forEach((count, value) => {
-        console.log(`Dropdown Value: ${value}, Count: ${count}`); // Debug log
-        if (count > 1) {
-            duplicateFound = true;
-        }
-    });
-
-    if (duplicateFound) {
-        alert("Only one function per script is allowed with the same dropdown value. Please change or remove the extra blocks.");
-        return;
-    }
 
     if (Object.keys(Blockly.serialization.workspaces.save(workspace)).length !== 0) {
         workspace.getAllVariables().forEach(v => v.name = name + "_" + v.name);
         let listeners = "";
+        
         if (listenForInstantiation) {
-            listeners += "ListenForInstantiation\n";
+            listeners += "ListenForInstantiation();\n";
         }
         if (listenForChat) {
-            listeners += "ListenForChat\n";
+            listeners += "ListenForChat();\n";
         }
+
         download(
             `// Made with GoreBox Mod Maker ${version}
 // use GoreBox Mod Maker at "https://samllea1.github.io/GoreBox-Mod-Maker/"

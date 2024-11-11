@@ -3,7 +3,7 @@ Blockly.Blocks["MATH_number"] = {
         this.appendDummyInput()
             .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 0.1), "NumberValue");
         this.setOutput(true, "Number");
-        this.setColour("#6b00de");
+        this.setColour("#ffffff");
         this.setTooltip("");
         this.setHelpUrl("");
     },

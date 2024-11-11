@@ -19,6 +19,7 @@ javascript.javascriptGenerator.forBlock['GB_OnStart'] = function(block) {
   return prependCode + code;
 };
 
+/*
 Blockly.Blocks['GB_OnFunction'] = {
   init: function() {
     this.appendDummyInput()
@@ -46,7 +47,7 @@ javascript.javascriptGenerator.forBlock['GB_OnFunction'] = function(block, gener
 
   return code;
 };
-
+*/
 
 Blockly.Blocks["GB_print"] = {
     init: function () {
@@ -406,6 +407,41 @@ javascript.javascriptGenerator.forBlock['GB_set_scale'] = function(block, genera
   var code = `SetScale({"x": ${x}, "y": ${y}, "z": ${z}})\n`;
   return code;
 };
+
+Blockly.Blocks["GB_add_rigidbody"] = {
+  init: function () {
+      this.appendDummyInput()
+          .appendField("Add RigidBody Physics");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#0048ff");
+      this.setTooltip("");
+      this.setHelpUrl("");
+  },
+};
+
+javascript.javascriptGenerator.forBlock['GB_add_rigidbody'] = function(block, generator) {
+const code = `AddRigidbody\n`;
+return code;
+};
+
+Blockly.Blocks["GB_remove_rigidbody"] = {
+  init: function () {
+      this.appendDummyInput()
+          .appendField("Remove RigidBody Physics");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#0048ff");
+      this.setTooltip("");
+      this.setHelpUrl("");
+  },
+};
+
+javascript.javascriptGenerator.forBlock['GB_remove_rigidbody'] = function(block, generator) {
+const code = `RemoveRigidbody\n`;
+return code;
+};
+
 
 Blockly.Blocks["GB_pos_x"] = {
   init: function () {
