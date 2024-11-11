@@ -329,7 +329,7 @@ Blockly.Blocks['OBJECTS_instantiate'] = {
     init: function() {
         this.appendValueInput("name")
             .setCheck("String")
-            .appendField("Instantiate Empty - name:");
+            .appendField("Instantiate - name:");
         this.appendValueInput("path")
             .setCheck("String")
             .appendField("path:");
