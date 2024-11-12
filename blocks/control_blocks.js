@@ -382,6 +382,6 @@ Blockly.Blocks["CONTROL_false"] = {
 };
 
 javascript.javascriptGenerator.forBlock['CONTROL_false'] = function(block, generator) {
-    const code = 'true';
+    const code = 'false';
     return [code, javascript.Order.FUNCTION_CALL];
 };

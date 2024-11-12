@@ -199,6 +199,29 @@ const toolbox = {
         },
         {
             kind: "category",
+            name: "player",
+            colour: "#50b800",
+            contents: [
+                block("PLAYER_OnPlayer"),
+                block("PLAYER_drop_weapons"),
+                block("PLAYER_heal"),
+                block("PLAYER_kill"),
+                block("PLAYER_cripple"),
+                block("PLAYER_emote"),
+                block("PLAYER_end_emote"),
+                block("PLAYER_set_team"),
+                block("PLAYER_ragdoll"),
+                block("PLAYER_get_up"),
+                block("PLAYER_infect"),
+                block("PLAYER_emotes"),
+                block("PLAYER_teams"),
+                block("PLAYER_args"),
+
+                // block(""),
+            ],
+        },
+        {
+            kind: "category",
             name: "chat",
             colour: "#fc3903",
             contents: [
@@ -406,38 +429,52 @@ $("#Export").click(() => {
     very_end = "";
     menus = 0;
     getID();
-    
+
     // Check for multiple "GB_OnStart" blocks
     const topBlocks = workspace.getTopBlocks(true);
     const onStartBlocks = topBlocks.filter(block => block.type === 'GB_OnStart');
-    
+
     if (onStartBlocks.length > 1) {
         alert("Only one Main Hat block is allowed. Please remove the extra blocks.");
         return;
     }
-    
+
     // Check for multiple "CHAT_OnChat" blocks
     const OnChatBlocks = topBlocks.filter(block => block.type === 'CHAT_OnChatMessage');
-    
+
     if (OnChatBlocks.length > 1) {
         alert("Only one OnChatMessage block can be used. Please remove the extra blocks.");
         return;
     }
 
     const OnInstantiateBlocks = topBlocks.filter(block => block.type === 'OBJECTS_OnInstantiate');
-    
+
     if (OnInstantiateBlocks.length > 1) {
         alert("Only one OnInstantiate block can be used. Please remove the extra blocks.");
         return;
     }
 
+    // Check for multiple "PLAYER_OnPlayer" blocks with the same "EVENT" input
+    const OnPlayerBlocks = topBlocks.filter(block => block.type === 'PLAYER_OnPlayer');
+    const events = OnPlayerBlocks.map(block => block.getFieldValue('EVENT'));
+    const uniqueEvents = new Set(events);
+
+    if (events.length !== uniqueEvents.size) {
+        alert("Each PLAYER_OnPlayer block must have a unique 'EVENT' input. Please correct this.");
+        return;
+    }
+
     // Check for specific blocks and set listeners
     let listenForInstantiation = false;
+    let listenForPlayer = false;
     let listenForChat = false;
-    
+
     topBlocks.forEach(block => {
         if (block.type === 'OBJECTS_OnInstantiate') {
             listenForInstantiation = true;
+        }
+        if (block.type === 'PLAYER_OnPlayer') {
+            listenForPlayer = true;
         }
         if (block.type === 'CHAT_OnChatMessage') {
             listenForChat = true;
@@ -447,12 +484,15 @@ $("#Export").click(() => {
     if (Object.keys(Blockly.serialization.workspaces.save(workspace)).length !== 0) {
         workspace.getAllVariables().forEach(v => v.name = name + "_" + v.name);
         let listeners = "";
-        
+
         if (listenForInstantiation) {
-            listeners += "ListenForInstantiation();\n";
+            listeners += "ListenForInstantiation\n";
+        }
+        if (listenForPlayer) {
+            listeners += "ListenForPlayer\n";
         }
         if (listenForChat) {
-            listeners += "ListenForChat();\n";
+            listeners += "ListenForChat\n";
         }
 
         download(
@@ -463,12 +503,12 @@ ${listeners}\n\n` +
             `
 ${end}
 ${very_end}
-while true 
-    while _events.len > 0 
-        _nextEvent = _events.pull 
-        _nextEvent.invoke(_nextEvent.args) 
-    end while 
-    yield 
+while true
+    while _events.len > 0
+        _nextEvent = _events.pull
+        _nextEvent.invoke(_nextEvent.args)
+    end while
+    yield
 end while`,
             name + ".txt"
         );
@@ -494,6 +534,7 @@ function getCode() {
     // Combine other blocks' code and the "GB_OnStart" block at the end
     return otherBlocksCode + "\n" + onStartBlockCode;
 }
+
 
 function download(content, filename, contentType = "text/plain") {
     const blob = new Blob([content], { type: contentType });
