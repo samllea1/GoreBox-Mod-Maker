@@ -1,24 +1,3 @@
-Blockly.Blocks["GB_OnStart"] = {
-  init: function () {
-      this.appendDummyInput()
-          .appendField("when ever the script starts, run code:");
-      this.setNextStatement(true, null);
-      this.setColour("#ffbc03");
-      this.setTooltip("");
-      this.setHelpUrl("");
-  },
-};
-
-javascript.javascriptGenerator.forBlock['GB_OnStart'] = function(block) {
-  let code = '';
-  const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  if (nextBlock) {
-    code = Blockly.JavaScript.statementToCode(block, '');
-  }
-  let prependCode = '';
-  return prependCode + code;
-};
-
 /*
 Blockly.Blocks['GB_OnFunction'] = {
   init: function() {
@@ -66,6 +45,25 @@ javascript.javascriptGenerator.forBlock['GB_print'] = function(block, generator)
   const text = generator.valueToCode(block, 'text', javascript.Order.ATOMIC);
   const code = `print ${text}\n`;
   return code;
+};
+
+Blockly.Blocks["GB_comment"] = {
+  init: function () {
+      this.appendDummyInput()
+          .appendField("//")
+          .appendField(new Blockly.FieldTextInput("Comment"), "text");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#696969");
+      this.setTooltip("");
+      this.setHelpUrl("");
+  },
+};
+
+javascript.javascriptGenerator.forBlock['GB_comment'] = function(block, generator) {
+const text = block.getFieldValue('text');
+const code = `// ${text}\n`;
+return code;
 };
 
 Blockly.Blocks["GB_open_console"] = {

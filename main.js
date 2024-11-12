@@ -141,9 +141,9 @@ const toolbox = {
             name: "Events",
             colour: "#ffbc03",
             contents: [
-                block("GB_OnStart"),
+                block("EVENTS_OnStart"),
                 // block("GB_OnFunction"),
-                block("GB_args"),
+                // block("GB_args"),
 
                 // block(""),
             ],
@@ -268,6 +268,9 @@ const toolbox = {
                 block("TEXT_string"),
                 block("TEXT_string_join"),
                 block("TEXT_length"),
+                block("TEXT_split"),
+                block("TEXT_letter"),
+                block("TEXT_value"),
                 block("TEXT_string_contains"),
 
                 // block(""),
@@ -288,6 +291,7 @@ const toolbox = {
                 block("MATH_random_integer"),
                 block("MATH_random_float"),
                 block("MATH_special"),
+                block("MATH_distance"),
                 block("MATH_pi"),
 
                 // block(""),
@@ -314,6 +318,16 @@ const toolbox = {
                 block("GB_print"),
                 block("GB_open_console"),
                 block("GB_close_console"),
+
+                // block(""),
+            ],
+        },
+        {
+            kind: "category",
+            name: "comments",
+            colour: "#696969",
+            contents: [
+                block("GB_comment"),
 
                 // block(""),
             ],

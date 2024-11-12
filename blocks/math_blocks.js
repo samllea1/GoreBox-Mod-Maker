@@ -244,3 +244,45 @@ javascript.javascriptGenerator.forBlock['MATH_random_float'] = function(block, g
     const code = `RandomFloat({"min": ${join1}, "max": ${join2}})`;
     return [code, javascript.Order.ADDITION];
 };
+
+Blockly.Blocks["MATH_distance"] = {
+    init: function () {
+        this.appendValueInput("X1")
+            .setCheck("Number")
+            .appendField("distance from - x:");
+        this.appendValueInput("Y1")
+            .setCheck("Number")
+            .appendField("y:");
+        this.appendValueInput("Z1")
+            .setCheck("Number")
+            .appendField("z:");
+        this.appendValueInput("X2")
+            .setCheck("Number")
+            .appendField("to x:");
+        this.appendValueInput("Y2")
+            .setCheck("Number")
+            .appendField("y:");
+        this.appendValueInput("Z2")
+            .setCheck("Number")
+            .appendField("z:");
+        this.setInputsInline(true);
+        this.setOutput(true, "Number");
+        this.setColour("#6b00de");
+        this.setTooltip("");
+        this.setHelpUrl("");
+    },
+};
+
+javascript.javascriptGenerator.forBlock['MATH_distance'] = function(block, generator) {
+    const X1 = generator.valueToCode(block, 'X1', javascript.Order.ADDITION);
+    const Y1 = generator.valueToCode(block, 'Y1', javascript.Order.ADDITION);
+    const Z1 = generator.valueToCode(block, 'Z1', javascript.Order.ADDITION);
+    const X2 = generator.valueToCode(block, 'X2', javascript.Order.ADDITION);
+    const Y2 = generator.valueToCode(block, 'Y2', javascript.Order.ADDITION);
+    const Z2 = generator.valueToCode(block, 'Z2', javascript.Order.ADDITION);
+    const code = `sqrt((${X1} - ${X2}) * (${X1} - ${X2}) + (${Y1} - ${Y2}) * (${Y1} - ${Y2}) + (${Z1} - ${Z2}) * (${Z1} - ${Z2}))`;
+    return [code, javascript.Order.ADDITION];
+};
+
+
+// sqrt((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2) + (Z1 - Z2) * (Z1 - Z2))

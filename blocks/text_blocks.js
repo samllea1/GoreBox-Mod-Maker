@@ -46,7 +46,7 @@ Blockly.Blocks["TEXT_length"] = {
       this.setPreviousStatement(false, null);
       this.setNextStatement(false, null);
       this.setColour("#00a800");
-      this.setTooltip("Moves The Targeted Object");
+      this.setTooltip("");
       this.setHelpUrl("");
     }
   };
@@ -54,6 +54,82 @@ Blockly.Blocks["TEXT_length"] = {
 javascript.javascriptGenerator.forBlock['TEXT_length'] = function(block, generator) {
   var Num = generator.valueToCode(block, 'Num', javascript.Order.ATOMIC);
   var code = `${Num}.len`;
+  return [code, javascript.Order.MEMBER];
+};
+
+Blockly.Blocks["TEXT_split"] = {
+    init: function() {
+        this.setOutput(true, "String");
+        this.appendValueInput("item")
+            .setCheck("Number")
+            .appendField("item");
+        this.appendValueInput("text")
+            .setCheck("String")
+            .appendField("of");
+        this.appendValueInput("splitter")
+            .setCheck("String")
+            .appendField("split by");
+        this.setInputsInline(true);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(false, null);
+        this.setColour("#00a800");
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+  };
+  
+javascript.javascriptGenerator.forBlock['TEXT_split'] = function(block, generator) {
+  var item = generator.valueToCode(block, 'item', javascript.Order.ATOMIC);
+  var text = generator.valueToCode(block, 'text', javascript.Order.ATOMIC);
+  var splitter = generator.valueToCode(block, 'splitter', javascript.Order.ATOMIC);
+  var code = `${text}.split(${splitter})[${item-1}]`;
+  return [code, javascript.Order.MEMBER];
+};
+
+Blockly.Blocks["TEXT_letter"] = {
+    init: function() {
+        this.setOutput(true, "String");
+        this.appendValueInput("letter")
+            .setCheck("Number")
+            .appendField("letter");
+        this.appendValueInput("text")
+            .setCheck("String")
+            .appendField("of");
+        this.setInputsInline(true);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(false, null);
+        this.setColour("#00a800");
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+  };
+  
+javascript.javascriptGenerator.forBlock['TEXT_letter'] = function(block, generator) {
+  var letter = generator.valueToCode(block, 'letter', javascript.Order.ATOMIC);
+  var text = generator.valueToCode(block, 'text', javascript.Order.ATOMIC);
+  var code = `${text}.split("")[${letter-1}]`;
+  return [code, javascript.Order.MEMBER];
+};
+
+Blockly.Blocks["TEXT_value"] = {
+    init: function() {
+    this.setOutput(true, "Number");
+    this.appendValueInput("string")
+        .setCheck("String")
+    this.appendDummyInput()
+        .appendField("Value");
+    this.setInputsInline(true);
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(false, null);
+    this.setColour("#00a800");
+    this.setTooltip("");
+    this.setHelpUrl("");
+    }
+  };
+  
+javascript.javascriptGenerator.forBlock['TEXT_value'] = function(block, generator) {
+  var string = generator.valueToCode(block, 'string', javascript.Order.ATOMIC);
+  var code = `${string}.val`;
   return [code, javascript.Order.MEMBER];
 };
 
