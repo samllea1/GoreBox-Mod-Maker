@@ -265,7 +265,7 @@ Blockly.Blocks["MATH_distance"] = {
         this.appendValueInput("Z2")
             .setCheck("Number")
             .appendField("z:");
-        this.setInputsInline(true);
+        this.setInputsInline(false);
         this.setOutput(true, "Number");
         this.setColour("#6b00de");
         this.setTooltip("");

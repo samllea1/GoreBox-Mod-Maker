@@ -538,7 +538,7 @@ function getCode() {
 
     // Iterate through all top-level blocks
     topBlocks.forEach(block => {
-        if (block.type === 'GB_OnStart') {
+        if (block.type === 'OBJECTS_OnInstantiate' || block.type === 'PLAYER_OnPlayer' || block.type === 'CHAT_OnChatMessage') {
             onStartBlockCode += Blockly.JavaScript.blockToCode(block);
         } else {
             otherBlocksCode += Blockly.JavaScript.blockToCode(block);
@@ -546,7 +546,7 @@ function getCode() {
     });
 
     // Combine other blocks' code and the "GB_OnStart" block at the end
-    return otherBlocksCode + "\n" + onStartBlockCode;
+    return onStartBlockCode + "\n" + otherBlocksCode;
 }
 
 
