@@ -85,7 +85,7 @@ function getID() {
 
     name = $("#ModName").value();
     if (name === "") {
-        name = "ModName";
+        name = "My Script";
     }
 
 }
@@ -306,6 +306,19 @@ const toolbox = {
                 block("VARIABLES_set_variable_global"),
                 block("VARIABLES_variable"),
                 block("VARIABLES_variable_global"),
+
+                // block(""),
+            ],
+        },
+        {
+            kind: "category",
+            name: "data",
+            colour: "#ff7b00",
+            contents: [
+                block("DATA_save_number"),
+                block("DATA_save_text"),
+                block("DATA_get_number"),
+                block("DATA_get_text"),
 
                 // block(""),
             ],
@@ -587,7 +600,7 @@ function loadProject(file) {
             if(blocks.newdata) {
                 blocks.blocks = JSON.parse(blocks.blocks);
             }
-            $("#ModName").elt.value = blocks.name === "ModName" ? "" : blocks.name;
+            $("#ModName").elt.value = blocks.name === "My Script" ? "" : blocks.name;
 
 
             getID();
