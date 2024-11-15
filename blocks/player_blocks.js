@@ -284,7 +284,7 @@ Blockly.Blocks["PLAYER_teams"] = {
 
 javascript.javascriptGenerator.forBlock['PLAYER_teams'] = function(block, generator) {
   const team = block.getFieldValue('team');
-  const code = team;
+  const code = `"${team}"`;
   return [code, javascript.Order.ATOMIC];
 };
 
