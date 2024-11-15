@@ -1,4 +1,4 @@
-const version = "1.3.0 (Beta)";
+const version = "1.4.0 (Beta)";
 
 $("html").on("keydown", (e) => {
     if(e.ctrlKey && e.key == "s") {

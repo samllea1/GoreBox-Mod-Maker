@@ -184,7 +184,7 @@ Blockly.Blocks["PLAYER_emotes"] = {
 
 javascript.javascriptGenerator.forBlock['PLAYER_emotes'] = function(block, generator) {
   const emote = block.getFieldValue('emote');
-  const code = emote;
+  const code = `"${emote}"`;
   return [code, javascript.Order.ATOMIC];
 };
 
