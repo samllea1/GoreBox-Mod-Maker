@@ -649,8 +649,9 @@ $("#fileInput").on("change", (event) => {
         if (checkFileExtension(selectedFile, ".gmms")) {
             loadProject(selectedFile);
         } else {
-            alert("Please select a .gmms file");
-            fileInput.value = "";
+            loadProject(selectedFile);
+            // alert("Please select a .gmms file");
+            // fileInput.value = "";
         }
     }
 });
